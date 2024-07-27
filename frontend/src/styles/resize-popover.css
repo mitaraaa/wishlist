@@ -1,0 +1,32 @@
+.resize-popover {
+  @apply absolute z-50 rounded-lg bg-black p-2;
+  bottom: -16px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.resize-popover__radio-group {
+  @apply flex flex-row items-center gap-2;
+}
+
+.resize-popover__radio {
+  @apply flex items-center justify-center rounded-[4px] p-1;
+  transition: 100ms;
+  cursor: pointer;
+}
+
+.size-icon {
+  @apply h-6 w-6 min-w-6 object-scale-down;
+}
+
+.resize-popover__radio:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.resize-popover__radio[aria-checked="true"] {
+  @apply bg-white;
+}
+
+.resize-popover__radio[aria-checked="true"] .size-icon {
+  filter: invert(1);
+}
