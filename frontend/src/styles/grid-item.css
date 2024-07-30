@@ -12,6 +12,10 @@
   @apply z-40;
 }
 
+.grid-item-wrapper:active {
+  @apply z-50;
+}
+
 .grid-item__text {
   @apply z-[1] w-full overflow-hidden;
 }

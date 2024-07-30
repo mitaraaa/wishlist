@@ -23,6 +23,9 @@
   flex-direction: column;
   align-items: center;
   padding-top: 80px;
+
+  min-height: 100svh;
+  overflow-x: hidden;
 }
 
 .react-grid-item.react-grid-placeholder {

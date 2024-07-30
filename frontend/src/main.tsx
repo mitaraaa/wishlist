@@ -6,11 +6,14 @@ import "./styles/index.css";
 import App from "./app";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import DragAndDropProvider from "./contexts/drag-and-drop-context";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <DragAndDropProvider>
+        <App />
+      </DragAndDropProvider>
     </Provider>
   </React.StrictMode>,
 );
