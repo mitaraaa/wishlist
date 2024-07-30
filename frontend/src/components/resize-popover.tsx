@@ -1,9 +1,10 @@
-import "../styles/resize-popover.css";
-
 import { Field, Radio, RadioGroup } from "@headlessui/react";
-import { useEffect, useState } from "react";
-import { Item } from "../types/item";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+
+import { Item } from "@/types/item";
+
+import "@/styles/resize-popover.css";
 
 const sizeMap: {
   type: "square" | "horizontal" | "vertical";

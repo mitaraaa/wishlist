@@ -1,7 +1,8 @@
 import { createContext, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { updateItems } from "../redux/itemSlice";
 import { Layout } from "react-grid-layout";
+
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { updateItems } from "@/redux/itemSlice";
 
 type DragEventHandler = (
   layout: Layout[],

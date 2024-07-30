@@ -1,11 +1,14 @@
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { useAppDispatch } from "../redux/hooks";
-import { updateItem } from "../redux/itemSlice";
-import "../styles/grid-item.css";
-import { Item } from "../types/item";
+
+import useDragAndDrop from "@/hooks/use-drag-and-drop";
+import { useAppDispatch } from "@/redux/hooks";
+import { updateItem } from "@/redux/itemSlice";
+import { Item } from "@/types/item";
+
+import "@/styles/grid-item.css";
+
 import ResizePopover from "./resize-popover";
-import useDragAndDrop from "../hooks/use-drag-and-drop";
 
 const GridItem = ({ item }: GridItemProps) => {
   const [hovered, setHovered] = useState(false);
@@ -18,10 +21,13 @@ const GridItem = ({ item }: GridItemProps) => {
   };
 
   return (
-    <div
+    <motion.div
       className="grid-item"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
       <div className="grid-item__text">
         <h2 className="z-[1] w-full overflow-hidden text-ellipsis whitespace-nowrap text-white">
@@ -40,7 +46,7 @@ const GridItem = ({ item }: GridItemProps) => {
           <ResizePopover item={item} onChange={handleSizeChange} />
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 };
 

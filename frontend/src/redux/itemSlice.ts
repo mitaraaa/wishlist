@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Item } from "../types/item";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+
+import { Item } from "@/types/item";
 
 export interface ItemState {
   items: Item[];

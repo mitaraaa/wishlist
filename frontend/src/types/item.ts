@@ -4,7 +4,8 @@ export type Item = {
   height: number;
   row: number;
   column: number;
+  productUrl?: string;
   imageUrl?: string;
   title?: string;
   price?: string;
-}
+};

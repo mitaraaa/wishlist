@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 import GridLayout from "react-grid-layout";
-import GridItem from "./components/grid-item";
-import { useAppDispatch, useAppSelector } from "./redux/hooks";
-import { updateItems } from "./redux/itemSlice";
-import { Item } from "./types/item";
-import AddItemDialog from "./components/add-item";
-import useDragAndDrop from "./hooks/use-drag-and-drop";
+
+import useDragAndDrop from "@/hooks/use-drag-and-drop";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { updateItems } from "@/redux/itemSlice";
+import { Item } from "@/types/item";
+
+import AddItemDialog from "@/components/add-item";
+import GridItem from "@/components/grid-item";
 
 const mockData = [
   {

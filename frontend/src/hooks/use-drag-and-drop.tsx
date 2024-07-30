@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { DragAndDropContext } from "../contexts/drag-and-drop-context";
+
+import { DragAndDropContext } from "@/contexts/drag-and-drop-context";
 
 const useDragAndDrop = () => {
   const context = useContext(DragAndDropContext);
