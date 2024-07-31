@@ -11,15 +11,14 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
 import { Plus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import useDragAndDrop from "@/hooks/use-drag-and-drop";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { addItem } from "@/redux/itemSlice";
-import findFirstFreeSpot from "@/utils/free-grid-spot";
 
 import "@/styles/add-item.css";
 
@@ -37,34 +36,34 @@ const AddItemDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const dispatch = useAppDispatch();
-  const items = useAppSelector((state) => state.item.items);
 
-  const { register, handleSubmit } = useForm<z.infer<typeof itemSchema>>({
-    resolver: zodResolver(itemSchema),
-    defaultValues: {
-      imageUrl: "",
-      title: "",
-      price: "",
-      productUrl: "",
+  const { register, handleSubmit, reset } = useForm<z.infer<typeof itemSchema>>(
+    {
+      resolver: zodResolver(itemSchema),
+      defaultValues: {
+        imageUrl: "",
+        title: "",
+        price: "",
+        productUrl: "",
+      },
     },
-  });
+  );
 
   const { isDragging } = useDragAndDrop();
 
-  const onSubmit = (values: z.infer<typeof itemSchema>) => {
-    const spot = findFirstFreeSpot(items, 1, 1, 5);
+  useEffect(() => {
+    if (!isOpen) {
+      reset();
+    }
+  }, [isOpen]);
 
+  const onSubmit = (values: z.infer<typeof itemSchema>) => {
     dispatch(
       addItem({
         imageUrl: values.imageUrl,
         title: values.title,
         price: values.price,
         productUrl: values.productUrl,
-        row: spot.row,
-        column: spot.col,
-        width: 1,
-        height: 1,
-        id: Math.random().toString(36).slice(2, 9),
       }),
     );
 
@@ -112,7 +111,7 @@ const AddItemDialog = () => {
             className="relative z-50"
           >
             <DialogBackdrop
-              className="fixed inset-0 bg-black/40"
+              className="fixed inset-0 bg-black/40 backdrop-blur-md"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

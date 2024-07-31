@@ -1,5 +1,5 @@
 .resize-popover {
-  @apply absolute z-50 rounded-lg bg-black p-2;
+  @apply absolute z-50 rounded-lg bg-black p-2 shadow-md;
   bottom: -16px;
   left: 50%;
   transform: translate(-50%, 0);

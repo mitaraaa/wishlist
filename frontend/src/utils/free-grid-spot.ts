@@ -5,17 +5,17 @@ const findFirstFreeSpot = (
   width: number,
   height: number,
   gridWidth: number,
-): { row: number; col: number } => {
+): { row: number; column: number } => {
   let row = 1;
-  let col = 1;
+  let column = 1;
 
   while (true) {
-    if (isSpotAvailable(mockData, row, col, width, height, gridWidth)) {
-      return { row, col };
+    if (isSpotAvailable(mockData, row, column, width, height, gridWidth)) {
+      return { row, column };
     }
-    col++;
-    if (col > gridWidth) {
-      col = 1;
+    column++;
+    if (column > gridWidth) {
+      column = 1;
       row++;
     }
   }
