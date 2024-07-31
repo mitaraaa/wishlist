@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useEffect } from "react";
 import GridLayout from "react-grid-layout";
 
@@ -104,8 +105,8 @@ const App = () => {
           onDragStart={onDragStart}
           onDragStop={onDragStop}
         >
-          {items.map((item) => (
-            <div
+          {items.map((item, index) => (
+            <motion.div
               className="grid-item-wrapper"
               key={item.id}
               data-grid={{
@@ -114,12 +115,16 @@ const App = () => {
                 x: item.column - 1,
                 y: item.row - 1,
               }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: index * 0.15 }}
             >
               <GridItem item={item} />
-            </div>
+            </motion.div>
           ))}
         </GridLayout>
       </main>
+
       <AddItemDialog />
     </>
   );
