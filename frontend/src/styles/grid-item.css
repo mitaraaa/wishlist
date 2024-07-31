@@ -21,7 +21,15 @@
 }
 
 .grid-item__url {
-  @apply mb-1 flex w-fit max-w-32 items-center gap-1 truncate rounded-full bg-gray-200 bg-opacity-10 px-2 py-1 text-xs font-light text-gray-500;
+  @apply mb-1 flex w-fit max-w-full items-center gap-1 truncate rounded-full bg-gray-200 bg-opacity-10 px-2 py-1 text-xs font-light text-gray-500;
+}
+
+.grid-item__url span {
+  @apply w-full truncate;
+}
+
+.grid-item__url svg {
+  @apply min-h-4 min-w-4;
 }
 
 .grid-item__bg {

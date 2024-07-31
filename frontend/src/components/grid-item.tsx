@@ -39,10 +39,10 @@ const GridItem = ({ item }: GridItemProps) => {
     >
       <div className="grid-item__text">
         {item.productUrl && (
-          <span className="grid-item__url z-[1] text-white">
+          <div className="grid-item__url z-[1] text-white">
             <Link2 size={16} strokeWidth={1.5} />
-            {new URL(item.productUrl).hostname}
-          </span>
+            <span>{new URL(item.productUrl).hostname}</span>
+          </div>
         )}
         <h2 className="z-[1] w-full overflow-hidden text-ellipsis whitespace-nowrap text-white">
           {item.title}
@@ -53,7 +53,7 @@ const GridItem = ({ item }: GridItemProps) => {
         style={{
           backgroundImage: `url(${item.imageUrl})`,
         }}
-        className="grid-item__bg absolute bottom-0 left-0 right-0 top-0 z-0 bg-cover bg-center bg-no-repeat brightness-50"
+        className="grid-item__bg absolute bottom-0 left-0 right-0 top-0 z-0 bg-cover bg-center bg-no-repeat brightness-50 bg-gray-50"
       />
       <AnimatePresence>
         {hovered && !isDragging && (
