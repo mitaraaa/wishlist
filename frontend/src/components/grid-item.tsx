@@ -47,7 +47,7 @@ const GridItem = ({ item }: GridItemProps) => {
         <h2 className="z-[1] w-full overflow-hidden text-ellipsis whitespace-nowrap text-white">
           {item.title}
         </h2>
-        <p className="z-[1] text-white">{item.price}</p>
+        {item.price && <p className="z-[1] text-white">{item.price}</p>}
       </div>
       <div
         style={{
