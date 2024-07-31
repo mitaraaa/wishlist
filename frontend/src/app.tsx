@@ -17,6 +17,7 @@ const mockData = [
     row: 1,
     column: 1,
 
+    productUrl: "https://aliexpress.com/item/1005006635962621.html",
     imageUrl:
       "https://ae04.alicdn.com/kf/S71ea680d5c8b4bb59c07c801c0f4d16aR.jpg_640x640.jpg_.webp",
     title:
@@ -30,6 +31,7 @@ const mockData = [
     row: 3,
     column: 1,
 
+    productUrl: "https://aliexpress.com/item/1005006586523731.html",
     imageUrl:
       "https://ae04.alicdn.com/kf/S214f180ba36b4113abc668a280f7b9d4d.jpg_.webp",
     title:
@@ -43,6 +45,7 @@ const mockData = [
     row: 1,
     column: 3,
 
+    productUrl: "https://aliexpress.com/item/1005002968859747.html",
     imageUrl:
       "https://ae04.alicdn.com/kf/Hef254f2650d14199a63211bdee32c0d6i.jpg_640x640.jpg_.webp",
     title: "tied woman pullover",
@@ -55,6 +58,7 @@ const mockData = [
     row: 1,
     column: 4,
 
+    productUrl: "https://aliexpress.com/item/1005004686009792.html",
     imageUrl:
       "https://ae04.alicdn.com/kf/Sc285ea03a70644b6a3e62663093b3169e.jpg_640x640.jpg_.webp",
     title:

@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Trash } from "lucide-react";
+import { Link2, Trash } from "lucide-react";
 import { useState } from "react";
 
 import useDragAndDrop from "@/hooks/use-drag-and-drop";
@@ -34,8 +34,16 @@ const GridItem = ({ item }: GridItemProps) => {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.5 }}
       transition={{ duration: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+      // open new tab when clicking on the product URL (uncomment when view mode is implemented)
+      // onClick={() => item.productUrl && window.open(item.productUrl, "_blank")}
     >
       <div className="grid-item__text">
+        {item.productUrl && (
+          <span className="grid-item__url z-[1] text-white">
+            <Link2 size={16} strokeWidth={1.5} />
+            {new URL(item.productUrl).hostname}
+          </span>
+        )}
         <h2 className="z-[1] w-full overflow-hidden text-ellipsis whitespace-nowrap text-white">
           {item.title}
         </h2>
