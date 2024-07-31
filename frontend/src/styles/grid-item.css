@@ -43,3 +43,16 @@
   right: 0;
   bottom: 0;
 }
+
+.grid-item__trash-container {
+  @apply absolute -left-2 -top-2 cursor-pointer rounded-full bg-black p-2 shadow-md;
+  transition: 100ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.grid-item__trash-container:hover {
+  @apply bg-red-500;
+}
+
+.grid-item__trash-container svg {
+  @apply text-white;
+}

@@ -1,9 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
+import { Trash } from "lucide-react";
 import { useState } from "react";
 
 import useDragAndDrop from "@/hooks/use-drag-and-drop";
 import { useAppDispatch } from "@/redux/hooks";
-import { updateItem } from "@/redux/itemSlice";
+import { removeItem, updateItem } from "@/redux/itemSlice";
 import { Item } from "@/types/item";
 
 import "@/styles/grid-item.css";
@@ -20,6 +21,10 @@ const GridItem = ({ item }: GridItemProps) => {
     dispatch(updateItem({ ...item, width, height }));
   };
 
+  const handleDelete = () => {
+    dispatch(removeItem(item.id));
+  };
+
   return (
     <motion.div
       className="grid-item"
@@ -27,6 +32,7 @@ const GridItem = ({ item }: GridItemProps) => {
       onMouseLeave={() => setHovered(false)}
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.5 }}
       transition={{ duration: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
       <div className="grid-item__text">
@@ -43,7 +49,19 @@ const GridItem = ({ item }: GridItemProps) => {
       />
       <AnimatePresence>
         {hovered && !isDragging && (
-          <ResizePopover item={item} onChange={handleSizeChange} />
+          <>
+            <ResizePopover item={item} onChange={handleSizeChange} />
+            <motion.div
+              className="grid-item__trash-container"
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.5, opacity: 0 }}
+              transition={{ duration: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+              onClick={handleDelete}
+            >
+              <Trash size={16} className="grid-item__trash" />
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </motion.div>
