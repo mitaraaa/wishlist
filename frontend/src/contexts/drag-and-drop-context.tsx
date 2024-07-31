@@ -1,6 +1,7 @@
-import { createContext, useEffect, useRef, useState } from "react";
+import { createContext, useState } from "react";
 import { Layout } from "react-grid-layout";
 
+import useTimer from "@/hooks/use-timer";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { updateItems } from "@/redux/itemSlice";
 
@@ -28,22 +29,18 @@ const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
   const items = useAppSelector((state) => state.item.items);
 
   const [isDragging, setIsDragging] = useState(false);
-  const dragTimer = useRef<NodeJS.Timeout | null>(null);
+  const dragTimer = useTimer();
 
   const DRAG_DELAY = 200;
 
   const onDragStart: DragEventHandler = () => {
-    dragTimer.current = setTimeout(() => {
+    dragTimer.start(() => {
       setIsDragging(true);
     }, DRAG_DELAY);
   };
 
   const onDragStop: DragEventHandler = (layout) => {
-    if (dragTimer.current) {
-      clearTimeout(dragTimer.current);
-      dragTimer.current = null;
-    }
-
+    dragTimer.stop();
     setIsDragging(false);
 
     dispatch(
@@ -55,14 +52,6 @@ const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
       ),
     );
   };
-
-  useEffect(() => {
-    return () => {
-      if (dragTimer.current) {
-        clearTimeout(dragTimer.current);
-      }
-    };
-  }, []);
 
   return (
     <DragAndDropContext.Provider
