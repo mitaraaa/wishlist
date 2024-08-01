@@ -117,7 +117,7 @@ const App = () => {
               }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: index * 0.15 }}
+              transition={{ delay: index * 0.05 }}
             >
               <GridItem item={item} />
             </motion.div>

@@ -64,7 +64,7 @@ const GridItem = ({ item }: GridItemProps) => {
               initial={{ scale: 0.5, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.5, opacity: 0 }}
-              transition={{ duration: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+              transition={{ duration: 0.1 }}
               onClick={handleDelete}
             >
               <Trash size={16} className="grid-item__trash" />
