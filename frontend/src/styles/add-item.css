@@ -10,10 +10,6 @@
   @apply bg-zinc-100;
 }
 
-.dialog {
-  @apply min-w-96 max-w-lg space-y-4 rounded-2xl bg-white p-4;
-}
-
 .dialog__title {
   @apply mt-1 text-xl font-bold;
 }
@@ -29,6 +25,11 @@
 
 .btn:hover {
   @apply bg-gray-100;
+}
+
+.btn:focus {
+  outline: none;
+  border: none;
 }
 
 .primary {
@@ -53,27 +54,7 @@
 }
 
 .add-item-form {
-  @apply flex w-full flex-col gap-4;
-}
-
-.form-field {
-  @apply flex flex-col gap-1;
-}
-
-.form-field__label {
-  @apply text-xs font-semibold text-gray-500;
-}
-
-.form-field__input {
-  @apply rounded-md border border-zinc-300 bg-zinc-100 px-2 py-1 text-sm text-black;
-}
-
-.form-field__input[data-focus],
-.form-field__input:focus,
-.btn:focus {
-  @apply shadow-zinc-800;
-  outline: none;
-  box-shadow: 0 0 0 1px var(--tw-shadow-color);
+  @apply flex w-full flex-col gap-2;
 }
 
 .primary:focus {

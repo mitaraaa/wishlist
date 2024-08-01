@@ -1,13 +1,4 @@
-import {
-  Dialog,
-  DialogPanel,
-  DialogTitle,
-  Field,
-  Button as HeadlessButton,
-  DialogBackdrop as HeadlessDialogBackdrop,
-  Input,
-  Label,
-} from "@headlessui/react";
+import { Button, DialogTitle, Input } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
 import { Plus } from "lucide-react";
@@ -17,45 +8,51 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import useDragAndDrop from "@/hooks/use-drag-and-drop";
+import useTimer from "@/hooks/use-timer";
 import { useAppDispatch } from "@/redux/hooks";
 import { addItem } from "@/redux/itemSlice";
 
 import "@/styles/add-item.css";
 
-const Button = motion(HeadlessButton);
-const DialogBackdrop = motion(HeadlessDialogBackdrop);
+import Dialog from "./dialog";
+import Field from "./field";
 
 const itemSchema = z.object({
-  imageUrl: z.string().optional(),
-  title: z.string(),
+  title: z.string().min(1),
+  productUrl: z.union([z.string().trim().url(), z.literal("")]),
+  imageUrl: z.union([z.string().trim().url(), z.literal("")]),
   price: z.string().optional(),
-  productUrl: z.string().url().optional(),
 });
 
 const AddItemDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const [shake, setShake] = useState(false);
+  const shakeTimer = useTimer();
+
   const dispatch = useAppDispatch();
-
-  const { register, handleSubmit, reset } = useForm<z.infer<typeof itemSchema>>(
-    {
-      resolver: zodResolver(itemSchema),
-      defaultValues: {
-        imageUrl: "",
-        title: "",
-        price: "",
-        productUrl: "",
-      },
-    },
-  );
-
   const { isDragging } = useDragAndDrop();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<z.infer<typeof itemSchema>>({
+    resolver: zodResolver(itemSchema),
+    defaultValues: {
+      imageUrl: "",
+      title: "",
+      price: "",
+      productUrl: "",
+    },
+  });
 
   useEffect(() => {
     if (!isOpen) {
       reset();
     }
-  }, [isOpen]);
+  }, [isOpen, reset]);
 
   const onSubmit = (values: z.infer<typeof itemSchema>) => {
     dispatch(
@@ -70,11 +67,17 @@ const AddItemDialog = () => {
     setIsOpen(false);
   };
 
+  const onError = () => {
+    setShake(true);
+    shakeTimer.start(() => setShake(false), 500);
+  };
+
   return (
     <>
       <AnimatePresence>
         {!isOpen && !isDragging && (
           <Button
+            as={motion.button}
             className="add-item"
             onClick={() => setIsOpen(true)}
             initial={{
@@ -92,12 +95,10 @@ const AddItemDialog = () => {
             }}
             transition={{
               duration: 0.1,
-              type: "tween",
-              ease: [0.16, 1, 0.3, 1],
             }}
           >
             <Plus size={16} />
-            Add Item
+            Add item
           </Button>
         )}
       </AnimatePresence>
@@ -105,89 +106,80 @@ const AddItemDialog = () => {
       <AnimatePresence>
         {isOpen && (
           <Dialog
-            static
             open={isOpen}
             onClose={() => setIsOpen(false)}
-            className="relative z-50"
+            shake={shake}
+            key="add-item-dialog"
           >
-            <DialogBackdrop
-              className="fixed inset-0 bg-black/40 backdrop-blur-md"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            />
-            <motion.div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-              <DialogPanel
-                className="dialog"
-                as={motion.div}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
+            <DialogTitle className="dialog__title">Add item</DialogTitle>
+
+            <form
+              className="add-item-form"
+              onKeyDown={(e) =>
+                e.key === "Enter" && handleSubmit(onSubmit, onError)()
+              }
+            >
+              <Field
+                label="Title"
+                error={errors.title && "Title is required"}
+                required
               >
-                <DialogTitle className="dialog__title">Add item</DialogTitle>
+                <Input
+                  data-invalid={shake && errors.title !== undefined}
+                  className="form-field__input"
+                  type="text"
+                  placeholder="A cool product"
+                  {...register("title")}
+                />
+              </Field>
+              <Field
+                label="Product URL"
+                error={errors.productUrl && "Valid URL required"}
+              >
+                <Input
+                  data-invalid={shake && errors.productUrl !== undefined}
+                  className="form-field__input"
+                  type="text"
+                  placeholder="https://example.com/product"
+                  {...register("productUrl")}
+                />
+              </Field>
+              <Field
+                label="Image URL"
+                error={errors.imageUrl && "Valid URL required"}
+              >
+                <Input
+                  data-invalid={shake && errors.imageUrl !== undefined}
+                  className="form-field__input"
+                  type="text"
+                  placeholder="https://example.com/image.jpg"
+                  {...register("imageUrl")}
+                />
+              </Field>
+              <Field label="Price">
+                <CurrencyInput
+                  className="form-field__input currency-input"
+                  prefix="€"
+                  placeholder="€0.00"
+                  {...register("price")}
+                />
+              </Field>
+            </form>
 
-                <form
-                  onSubmit={handleSubmit(onSubmit)}
-                  className="add-item-form"
-                >
-                  <Field className="form-field">
-                    <Label className="form-field__label">Product URL</Label>
-                    <Input
-                      className="form-field__input"
-                      type="text"
-                      placeholder="https://example.com/product"
-                      {...register("productUrl", { required: false })}
-                    />
-                  </Field>
-                  <Field className="form-field">
-                    <Label className="form-field__label">Image URL</Label>
-                    <Input
-                      className="form-field__input"
-                      type="text"
-                      placeholder="https://example.com/image.jpg"
-                      {...register("imageUrl", { required: false })}
-                    />
-                  </Field>
-                  <Field className="form-field">
-                    <Label className="form-field__label flex gap-[2px]">
-                      Title
-                      <span className="text-red-500">*</span>
-                    </Label>
-                    <Input
-                      className="form-field__input"
-                      type="text"
-                      placeholder="A cool product"
-                      {...register("title", { required: true })}
-                    />
-                  </Field>
-                  <Field className="form-field">
-                    <Label className="form-field__label">Price</Label>
-                    <CurrencyInput
-                      className="form-field__input currency-input"
-                      // euro
-                      prefix="€"
-                      placeholder="€0.00"
-                      {...register("price", { required: false })}
-                    />
-                  </Field>
-                </form>
-
-                <div className="dialog__actions">
-                  <Button
-                    className="btn secondary"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className="btn primary"
-                    onClick={() => handleSubmit(onSubmit)()}
-                  >
-                    Add
-                  </Button>
-                </div>
-              </DialogPanel>
-            </motion.div>
+            <div className="dialog__actions">
+              <Button
+                className="btn secondary"
+                onClick={() => setIsOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                className="btn primary"
+                onClick={handleSubmit(onSubmit, onError)}
+              >
+                Add
+              </Button>
+            </div>
           </Dialog>
         )}
       </AnimatePresence>

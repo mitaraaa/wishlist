@@ -1,0 +1,36 @@
+.form-field {
+  @apply relative flex flex-col gap-0;
+}
+
+.form-field__label {
+  @apply text-xs font-semibold text-gray-500;
+}
+
+.form-field__input {
+  @apply my-1 rounded-md border border-zinc-300 bg-zinc-100 px-2 py-1 text-sm text-black;
+  transition: 100ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.form-field__input[data-focus],
+.form-field__input:focus {
+  @apply shadow-zinc-800;
+  outline: none;
+  box-shadow: 0 0 0 1px var(--tw-shadow-color);
+}
+
+.form-field__input[data-invalid="true"] {
+  @apply border-red-300 bg-red-50 text-red-700;
+}
+
+.form-field__input[data-invalid="true"]::placeholder {
+  @apply text-red-300;
+}
+
+.form-field__input[data-invalid="true"][data-focus],
+.form-field__input[data-invalid="true"]:focus {
+  @apply shadow-red-800;
+}
+
+.form-field__error {
+  @apply truncate text-xs text-red-500;
+}
